@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="356.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Manage.ServiceManager">
+   <children>
+      <TextField layoutX="101.0" layoutY="74.0" prefHeight="25.0" prefWidth="170.0" />
+      <Label layoutX="15.0" layoutY="76.0" text="Mã DV">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="117.0" text="Tên DV">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="157.0" text="Đơn giá">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="101.0" layoutY="114.0" prefHeight="25.0" prefWidth="170.0" />
+      <TextField layoutX="101.0" layoutY="154.0" prefHeight="25.0" prefWidth="170.0" />
+      <TableView fx:id="customerTable" layoutX="326.0" layoutY="114.0" prefHeight="225.0" prefWidth="382.0">
+         <columns>
+            <TableColumn fx:id="idColumn" prefWidth="123.0" text="Mã Dịch Vụ" />
+            <TableColumn fx:id="nameColumn" prefWidth="135.0" text="Tên Dịch Vụ" />
+            <TableColumn fx:id="genderColumn" prefWidth="123.0" text="Đơn giá" />
+         </columns>
+      </TableView>
+      <TextField layoutX="413.0" layoutY="74.0" prefHeight="25.0" prefWidth="239.0" />
+      <Label layoutX="326.0" layoutY="77.0" text="Tìm kiếm">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="292.0" layoutY="37.0" text="Quản lý dịch vụ">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <MenuBar prefHeight="25.0" prefWidth="720.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Chức năng">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Đặt Phòng" />
+                  <MenuItem mnemonicParsing="false" text="Thanh Toán" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Quản lý">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Quản lý phòng" />
+                  <MenuItem mnemonicParsing="false" text="Quản lý khách hàng" />
+                  <MenuItem mnemonicParsing="false" text="Quản lý nhân viên" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Tài Khoản">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Button layoutX="14.0" layoutY="240.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Thêm" />
+      <Button layoutX="151.0" layoutY="240.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Sửa" />
+      <Button layoutX="14.0" layoutY="298.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Xóa" />
+      <Button layoutX="151.0" layoutY="298.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Làm mới" />
+   </children>
+</AnchorPane>

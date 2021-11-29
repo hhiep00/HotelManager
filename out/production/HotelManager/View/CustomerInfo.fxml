@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="282.0" prefWidth="617.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CustomerInfo">
+   <children>
+      <TextField fx:id="textFieldId" disable="true" focusTraversable="false" layoutX="104.0" layoutY="51.0" prefHeight="25.0" prefWidth="190.0" />
+      <Label layoutX="18.0" layoutY="53.0" text="Mã KH">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="datePickerDob" focusTraversable="false" layoutX="104.0" layoutY="96.0" prefHeight="25.0" prefWidth="190.0" />
+      <TextField fx:id="textFieldNationality" focusTraversable="false" layoutX="411.0" layoutY="186.0" prefHeight="25.0" prefWidth="190.0" />
+      <TextField fx:id="textFieldIdCard" focusTraversable="false" layoutX="104.0" layoutY="141.0" prefHeight="25.0" prefWidth="190.0" />
+      <TextField fx:id="textFieldName" focusTraversable="false" layoutX="411.0" layoutY="51.0" prefHeight="25.0" prefWidth="190.0" />
+      <TextField fx:id="textFieldHometown" focusTraversable="false" layoutX="104.0" layoutY="186.0" prefHeight="25.0" prefWidth="190.0" />
+      <TextField fx:id="textFilePhoneNumber" focusTraversable="false" layoutX="411.0" layoutY="141.0" prefHeight="25.0" prefWidth="190.0" />
+      <Label layoutX="206.0" layoutY="14.0" text="Thông tin khách hàng" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="332.0" layoutY="53.0" text="Tên KH">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="332.0" layoutY="99.0" text="Giới tính">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="332.0" layoutY="144.0" text="Số ĐT">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="332.0" layoutY="189.0" text="Quốc Tịch">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="18.0" layoutY="99.0" text="Ngày sinh">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="18.0" layoutY="144.0" text="Số CMND">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="18.0" layoutY="189.0" text="Quê Quán">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button focusTraversable="false" layoutX="482.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleButtonSave" prefHeight="40.0" prefWidth="120.0" text="Lưu" />
+      <RadioButton fx:id="rbMale" focusTraversable="false" layoutX="411.0" layoutY="99.0" mnemonicParsing="false" onAction="#getGender" text="Nam">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="rbGender" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbFemale" focusTraversable="false" layoutX="484.0" layoutY="99.0" mnemonicParsing="false" onAction="#getGender" text="Nữ" toggleGroup="$rbGender">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <Label fx:id="error_dob" layoutX="104.0" layoutY="121.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_CMND" layoutX="104.0" layoutY="166.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_que" layoutX="104.0" layoutY="211.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_nameKH" layoutX="412.0" layoutY="76.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_gender" layoutX="412.0" layoutY="121.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_phoneN" layoutX="412.0" layoutY="166.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_quocTich" layoutX="412.0" layoutY="211.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="482.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CheckIn">
+   <children>
+      <Label layoutX="14.0" layoutY="39.0" text="Mã KH">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="80.0" text="Mã Phòng">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="120.0" text="Ngày đến">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="427.0" layoutY="8.0" text="Danh Sách Phòng">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="comBoxMKH" editable="true" focusTraversable="false" layoutX="100.0" layoutY="37.0" prefHeight="25.0" prefWidth="170.0" visibleRowCount="5" />
+      <ComboBox fx:id="comBoxMP" editable="true" focusTraversable="false" layoutX="100.0" layoutY="78.0" prefHeight="25.0" prefWidth="170.0" visibleRowCount="5" />
+      <DatePicker fx:id="dpNgayDen" focusTraversable="false" layoutX="100.0" layoutY="118.0" prefHeight="25.0" prefWidth="170.0" />
+      <TableView fx:id="tvPhong" focusTraversable="false" layoutX="310.0" layoutY="37.0" prefHeight="214.0" prefWidth="384.0">
+         <columns>
+            <TableColumn fx:id="tcMaPhong" prefWidth="94.0" style="-fx-alignment: CENTER;" text="Mã Phòng" />
+            <TableColumn fx:id="tcLoaiPhong" prefWidth="103.0" style="-fx-alignment: CENTER;" text="Loại Phòng" />
+            <TableColumn fx:id="tcTinhTrang" prefWidth="102.0" style="-fx-alignment: CENTER;" text="Tình Trạng" />
+            <TableColumn fx:id="tcGia" prefWidth="84.0" style="-fx-alignment: CENTER;" text="Giá" />
+         </columns>
+      </TableView>
+      <Button fx:id="btDatPhong" focusTraversable="false" layoutX="14.0" layoutY="157.0" mnemonicParsing="false" onAction="#handleInsertDP" prefHeight="40.0" prefWidth="125.0" text="Đặt Phòng" />
+      <Button fx:id="btDKKH" focusTraversable="false" layoutX="568.0" layoutY="448.0" mnemonicParsing="false" onAction="#gotoInforCustomer" prefHeight="30.0" prefWidth="125.0" text="Đăng ký khách hàng" />
+      <TableView fx:id="tvThuePhong" focusTraversable="false" layoutX="14.0" layoutY="264.0" onMouseClicked="#handleMouseAction" prefHeight="173.0" prefWidth="681.0">
+        <columns>
+          <TableColumn fx:id="tcMT" prefWidth="101.0" style="-fx-alignment: CENTER;" text="Mã Thuê" />
+          <TableColumn fx:id="tcMKH" prefWidth="138.0" style="-fx-alignment: CENTER;" text="Mã Khách Hàng" />
+            <TableColumn fx:id="tcMP" prefWidth="128.0" style="-fx-alignment: CENTER;" text="Mã Phòng" />
+            <TableColumn fx:id="tcNgayDen" minWidth="0.0" prefWidth="117.0" style="-fx-alignment: CENTER;" text="Ngày Đến " />
+            <TableColumn fx:id="tcThanhToan" minWidth="0.0" prefWidth="196.0" style="-fx-alignment: CENTER;" text="Thanh Toán" />
+        </columns>
+      </TableView>
+      <Button fx:id="btHuyPhong" focusTraversable="false" layoutX="14.0" layoutY="206.0" mnemonicParsing="false" onAction="#handleHuyPhong" prefHeight="40.0" prefWidth="125.0" text="Hủy Phòng" />
+      <Button fx:id="btSua" focusTraversable="false" layoutX="145.0" layoutY="157.0" mnemonicParsing="false" onAction="#handleButtonSua" prefHeight="40.0" prefWidth="125.0" text="Cập Nhật" />
+      <Button fx:id="btLamMoi" focusTraversable="false" layoutX="145.0" layoutY="206.0" mnemonicParsing="false" onAction="#handleButtonLamMoi" prefHeight="40.0" prefWidth="125.0" text="Làm Mới" />
+      <Label fx:id="error_idKH" layoutX="100.0" layoutY="62.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_idRoom" layoutX="100.0" layoutY="103.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_dateIn" layoutX="100.0" layoutY="143.0" textFill="#d95d1c">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

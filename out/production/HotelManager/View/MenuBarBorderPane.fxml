@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MenuBarBorderPane">
+   <top>
+      <VBox prefHeight="20.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Chức năng">
+                  <items>
+                    <MenuItem fx:id="menuItemDatPhong" mnemonicParsing="false" onAction="#handleMenuItem" text="Đặt phòng" />
+                        <MenuItem fx:id="menuItemThanhToan" mnemonicParsing="false" onAction="#handleMenuItem" text="Thanh toán" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Quản lý">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleMenuItem" text="Quản lý phòng" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuItem" text="Quản lý khách hàng" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuItem" text="Quản lý nhân viên" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Tài khoản">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuItem" text="Thông tin" />
+                     </items></Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <Label fx:id="labelUsername" text="Label" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
