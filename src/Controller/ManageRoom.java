@@ -7,9 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -59,6 +57,40 @@ public class ManageRoom implements Initializable {
     @FXML
     private TextField seachText;
 
+    @FXML
+    private RadioButton roomAvailable;
+
+    @FXML
+    private RadioButton roomNotAvailable;
+
+    @FXML
+    private ToggleGroup trangThaiPhong;
+    @FXML
+    private Label error_idRoom;
+
+    @FXML
+    private Label error_price;
+
+    @FXML
+    private Label error_tinhTrang;
+
+    @FXML
+    private Label error_type;
+    private boolean checkErrorText(){
+        boolean isIdRoomNotEmpty=validation.Validation.isTextFieldNotEmpty(idText,error_idRoom,"Vui lòng nhập mã phòng.");
+        boolean isTypeNotEmpty=validation.Validation.isTextFieldNotEmpty(typeText,error_type,"Vui lòng nhập loại phòng.");
+        boolean isTinhTrangNotEmpty=validation.Validation.isGenderNotEmpty(roomAvailable,roomNotAvailable,error_tinhTrang,"Vui lòng chọn trạng thái.");
+        boolean isPriceNotEmpty=validation.Validation.isTextFieldNotEmpty(priceText,error_price,"Vui lòng nhập giá tiền.");
+        boolean isPriceisNumber=false;
+        if(isPriceNotEmpty){
+            isPriceisNumber=validation.Validation.isNumber(priceText,error_price,"Giá tiền phải là 1 số");
+        }
+        if(isIdRoomNotEmpty && isPriceNotEmpty && isTypeNotEmpty && isTinhTrangNotEmpty && isPriceisNumber){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         phongList = FXCollections.observableArrayList();
@@ -96,9 +128,10 @@ public class ManageRoom implements Initializable {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 Phong p1 = new Phong();
-                p1.setMaPhong(rs.getInt("maPhong"));
+                p1.setMaPhong(rs.getString("maPhong"));
                 p1.setLoaiPhong(rs.getString("loaiPhong"));
-                p1.setTrangThai(rs.getString("trangThai"));
+                if(rs.getBoolean("trangThai")) p1.setTrangThai("Trống");
+                else p1.setTrangThai("Đã thuê");
                 p1.setGia(rs.getInt("gia"));
                 p.add(p1);
             }
@@ -107,47 +140,65 @@ public class ManageRoom implements Initializable {
     }
 
     // Thao tác với nút thêm
-    public void insert(ActionEvent e) throws SQLException {
-        Phong p = new Phong();
-        int t = 0;
-        if (phongList.size() != 0) {
-            Phong p1 = phongList.get(phongList.size() - 1);
-            String s = p1.getMaPhong();
-            String s1 = "" + s.charAt(1) + s.charAt(2);
-            t = Integer.parseInt(s1);
-        }
-        p.setMaPhong(t + 1);
-        p.setLoaiPhong(typeText.getText());
-        p.setTrangThai(statusText.getText());
-        p.setGia(Integer.parseInt(priceText.getText()));
-        phongList.add(p);
-        try {
-            insertDB(p);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public void insert(ActionEvent e)  {
+        if(checkErrorText()){
+            Phong p = new Phong();
+            int t = 0;
+            if (phongList.size() != 0) {
+                Phong p1 = phongList.get(phongList.size() - 1);
+                String s = p1.getMaPhong();
+                String s1 = "" + s.charAt(1) + s.charAt(2);
+                t = Integer.parseInt(s1);
+            }
+            p.setMaPhong(idText.getText());
+            p.setLoaiPhong(typeText.getText());
+            if(roomAvailable.isSelected()) p.setTrangThai("Trống");
+            else p.setTrangThai("Đã thuê");
+            p.setGia(Integer.parseInt(priceText.getText()));
+            phongList.add(p);
+            try {
+                insertDB(p);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     //Thêm dữ liệu vào DB
     public boolean insertDB(Phong p) throws Exception {
         DBConnection dbc = new DBConnection();
-        String sql = "insert dbo.Phong (loaiphong,trangThai,gia) values (?,?,?)";
+        String sql = "insert dbo.Phong (maPhong,loaiphong,trangThai,gia) values (?,?,?,?)";
         try (Connection cnn = dbc.getConnection(); PreparedStatement pstm = cnn.prepareStatement(sql);) {
-//          pstm.setString(1, p.getMaPhong());
-            pstm.setString(1, p.getLoaiPhong());
+          pstm.setString(1, p.getMaPhong());
+            pstm.setString(2, p.getLoaiPhong());
             String s = p.getTrangThai();
             int th;
             if (s.equals("Trống")) th = 1;
             else th = 0;
-            pstm.setInt(2, th);
-            pstm.setInt(3, p.getGia());
-            return pstm.executeUpdate() > 0;
+            pstm.setInt(3, th);
+            pstm.setInt(4, p.getGia());
+            boolean check=false;
+            try{
+                pstm.executeUpdate();
+                check=true;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Thông báo:");
+                alert.setContentText("Thành công.");
+                alert.show();
+            }catch(Exception ex){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Thông báo:");
+                alert.setContentText("Không thành công\nMã phòng đã tồn tại.");
+                alert.show();
+            }
+            return check;
         }
     }
 
     // Xóa dữ liệu
     // thao tác với nút xóa
     public void delete(ActionEvent e) {
+
         Phong selected = table.getSelectionModel().getSelectedItem();
         phongList.remove(selected);
         try {
@@ -163,9 +214,7 @@ public class ManageRoom implements Initializable {
         String sql = "delete dbo.Phong where MaPhong=?";
         try (Connection cnn = dbc.getConnection(); PreparedStatement pstm = cnn.prepareStatement(sql);) {
             String s = o.getMaPhong();
-            String s1 = "" + s.charAt(1) + s.charAt(2);
-            int t = Integer.parseInt(s1);
-            pstm.setInt(1, t);
+            pstm.setString(1, s);
             return pstm.executeUpdate() > 0;
         }
     }
@@ -173,16 +222,19 @@ public class ManageRoom implements Initializable {
     //Thao tác sửa dữ liệu
     // Thao tác nút sửa
     public void update(ActionEvent e) {
-        Phong p = new Phong();
-        p.setMaPhong(Integer.parseInt(idText.getText()));
-        p.setLoaiPhong(typeText.getText());
-        p.setTrangThai(statusText.getText());
-        p.setGia(Integer.parseInt(priceText.getText()));
-        try {
-            updateDB(p);
-            showInSearchBar();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if(checkErrorText()){
+            Phong p = new Phong();
+            p.setMaPhong(idText.getText());
+            p.setLoaiPhong(typeText.getText());
+            if(roomAvailable.isSelected()) p.setTrangThai("Trống");
+            else p.setTrangThai("Đã thuê");
+            p.setGia(Integer.parseInt(priceText.getText()));
+            try {
+                updateDB(p);
+                addAll();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -191,18 +243,39 @@ public class ManageRoom implements Initializable {
         DBConnection dbc = new DBConnection();
         String sql = "update dbo.Phong set loaiPhong=?, trangThai=?, gia=? where maPhong=?";
         try (Connection cnn = dbc.getConnection(); PreparedStatement pstm = cnn.prepareStatement(sql);) {
-            pstm.setString(1, p.getLoaiPhong());
-            String s = p.getTrangThai();
+//            pstm.setString(1, p.getLoaiPhong());
+//            String s = p.getTrangThai();
+//            int t;
+//            if (s.equals("Trống")) t = 1;
+//            else t = 0;
+//            pstm.setInt(2, t);
+//            pstm.setInt(3, p.getGia());
+//            String s1 = p.getMaPhong();
+//            pstm.setString(4, s1);
+//            return pstm.executeUpdate() > 0;
+            pstm.setString(1, typeText.getText());
             int t;
-            if (s.equals("Trống")) t = 1;
+            if (roomAvailable.isSelected()) t = 1;
             else t = 0;
             pstm.setInt(2, t);
-            pstm.setInt(3, p.getGia());
+            pstm.setInt(3, Integer.parseInt(priceText.getText()));
             String s1 = p.getMaPhong();
-            String s2 = "" + s1.charAt(1) + s1.charAt(2);
-            int t1 = Integer.parseInt(s2);
-            pstm.setInt(4, t1);
-            return pstm.executeUpdate() > 0;
+            pstm.setString(4, idText.getText());
+            boolean check=false;
+            try{
+                pstm.executeUpdate();
+                check=true;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Thông báo:");
+                alert.setContentText("Update thành công.");
+                alert.show();
+            }catch(Exception ex){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Thông báo:");
+                alert.setContentText("Update không thành công.");
+                alert.show();
+            }
+            return check;
         }
     }
 
@@ -211,14 +284,11 @@ public class ManageRoom implements Initializable {
         Phong p = table.getSelectionModel().getSelectedItem();
         if (mouseEvent.getClickCount() == 1 && p != null) {
             String s1 = p.getMaPhong();
-            String s2 = "" + s1.charAt(1) + s1.charAt(2);
-            idText.setText(s2);
+            idText.setText(s1);
             typeText.setText(p.getLoaiPhong());
             String s = p.getTrangThai();
-            int t;
-            if (s.equals("Trống")) t = 1;
-            else t = 0;
-            statusText.setText(String.format("%d", t));
+            if (s.equals("Trống")) roomAvailable.setSelected(true);
+            else roomNotAvailable.setSelected(true);
             priceText.setText(String.format("%d", p.getGia()));
         }
     }
@@ -227,19 +297,15 @@ public class ManageRoom implements Initializable {
     public ArrayList<Phong> seach(String s) throws Exception {
         DBConnection dbc = new DBConnection();
         String sql = "";
-        if (isNumber(s) == true) {
-            int t1 = Integer.parseInt(s);
-            sql = sql + "select * from dbo.Phong as p where p.maPhong like " + String.format("%d", t1) +
-                    "union select * from dbo.Phong as p where p.gia like " + String.format("%d", t1);
-        } else {
-            sql = sql + "select * from dbo.Phong as p where p.loaiPhong like '" + s + "%'";
-        }
+            sql = sql + "select * from dbo.Phong as p where p.maPhong like '" + s + "%'"
+                    + "select * from dbo.Phong as p where p.loaiPhong like '" + s + "%'";
+
         ArrayList<Phong> p = new ArrayList<>();
         try (Connection cnn = dbc.getConnection(); PreparedStatement pstm = cnn.prepareStatement(sql);) {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 Phong p1 = new Phong();
-                p1.setMaPhong(rs.getInt("maPhong"));
+                p1.setMaPhong(rs.getString("maPhong"));
                 p1.setLoaiPhong(rs.getString("loaiPhong"));
                 p1.setTrangThai(rs.getString("trangThai"));
                 p1.setGia(rs.getInt("gia"));
@@ -249,15 +315,6 @@ public class ManageRoom implements Initializable {
         return p;
     }
 
-    //Kiểm tra có phải số hay không.
-    public static boolean isNumber(String s) {
-        try {
-            int t = Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 
 
     // Thao tác với thanh tìm kiếm
@@ -286,17 +343,23 @@ public class ManageRoom implements Initializable {
                 }
                 table.setItems(phongList);
             } catch (Exception ex) {
-                Logger.getLogger(ManageRoom.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
         }
     }
 
     // Thao tác với nút tạo mới
     public void refresh(ActionEvent e) {
-        typeText.setText(null);
-        statusText.setText(null);
-        priceText.setText(null);
+        typeText.setText("");
+        priceText.setText("");
         seachText.clear();
+        idText.setText("");
+        roomNotAvailable.setSelected(false);
+        roomAvailable.setSelected(false);
+        error_idRoom.setText(null);
+        error_price.setText(null);
+        error_type.setText(null);
+        error_tinhTrang.setText(null);
         addAll();
     }
 }

@@ -216,7 +216,19 @@ public class ManageCustomer implements Initializable {
             String s1=sd.toString();
             int t=Integer.parseInt(s1);
             pstm.setInt(8,t);
-            return pstm.executeUpdate()>0;
+            boolean check=false;
+            try{
+                pstm.executeUpdate();
+                check=true;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Update thành công");
+                alert.show();
+            }catch(Exception ex){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Số CMND hoặc sđt đã tồn tại.");
+                alert.show();
+            }
+            return check;
         }
     }
 
@@ -247,10 +259,7 @@ public class ManageCustomer implements Initializable {
             kh.setQuocTich(nationalityText.getText());
             try {
                 updateDB(kh);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Thông báo");
-                alert.setContentText("Update thành công");
-                alert.show();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -289,6 +298,7 @@ public class ManageCustomer implements Initializable {
 
     @FXML
     void resetInfor(ActionEvent event) {
+        idText.setText("");
         nameText.setText("");
         dboDatePicker.setValue(null);
         maleRadioButton.setSelected(false);

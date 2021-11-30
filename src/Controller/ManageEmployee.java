@@ -147,33 +147,19 @@ public class ManageEmployee implements Initializable {
     @FXML
     private Label error_username;
 
+
+
+
+
     @FXML
     void handleButtonAction(ActionEvent event) throws ParseException {
         if (event.getSource() == btnThem) {
             if(checkErrorText()){
-                try{
-                    insertUser();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setContentText("Thêm thành công.");
-                    alert.show();
-                }catch (Exception ex){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Nhân viên đã tồn tại");
-                    alert.show();
-                }
+                insertUser();
             }
         } else if (event.getSource() == btnSua) {
             if(checkErrorText()){
-                try{
-                    updateUser();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setContentText("Sửa thành công.");
-                    alert.show();
-                }catch (Exception ex){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Nhân viên đã tồn tại");
-                    alert.show();
-                }
+                updateUser();
             }
         } else if (event.getSource() == btnXoa) {
             deleteUser();
@@ -198,7 +184,7 @@ public class ManageEmployee implements Initializable {
         error_idCard.setText(null);
     }
     public boolean checkErrorText(){
-        boolean isIDEmpty=validation.Validation.isTextFieldNotEmpty(tfmaNV,error_id,"vui lòng nhập ID");
+        boolean isIDEmpty=validation.Validation.isTextFieldNotEmpty(tfmaNV,error_id,"Vui lòng nhập ID");
         boolean isNameEmpty=validation.Validation.isTextFieldNotEmpty(tfTenNV,error_name,"Vui lòng nhập tên.");
         boolean isDateEmpty=validation.Validation.isDatePickerNotEmpty(dpNgaySinh,error_dob,"Vui lòng chọn ngày.");
         boolean isGenderEmpty=validation.Validation.isGenderNotEmpty(rbNam,rbNu,error_gender,"vui lòng chọn giới tính");
@@ -208,7 +194,7 @@ public class ManageEmployee implements Initializable {
         boolean isPhoneNumberEmpty=validation.Validation.isTextFieldNotEmpty(tfPNumber,error_phoneN,"Vui lòng nhập số điện thoại.");
         boolean isEmailEmpty=validation.Validation.isTextFieldNotEmpty(tfEmail,error_email,"Vui lòng nhập email.");
         boolean isAddressEmpty=validation.Validation.isTextFieldNotEmpty(tfAddress,error_address,"Vui lòng nhập quê quán.");
-        boolean isIdCardEmpty=validation.Validation.isTextFieldNotEmpty(tfAddress,error_address,"Vui lòng nhập số CMND.");
+        boolean isIdCardEmpty=validation.Validation.isTextFieldNotEmpty(tfAddress,error_idCard,"Vui lòng nhập số CMND.");
         boolean isSalaryIsNumber=false;
         boolean isPNIsNumber=false;
         if(isSalaryEmpty){
@@ -289,17 +275,7 @@ public class ManageEmployee implements Initializable {
                 + tfPassword.getText() + "' , N'" + tfTenNV.getText() + "', N'" + d2 + "', N'" + gioitinh
                 + "', N'"  + tfPNumber.getText() + "', N'" + tfEmail.getText() + "', N'" + tfIdCard.getText() + "', N'" + tfAddress.getText() + "', " + tfLuong.getText()+ ",'False'" + ")";
 
-        try{
-            executeQuery(query);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Thêm thành công.");
-            alert.show();
-        }catch (Exception ex){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Nhân viên đã tồn tại");
-            alert.show();
-        }
-//        executeQuery(query);
+        executeQuery(query,"ID, ");
         showUser();
     }
 
@@ -334,26 +310,31 @@ public class ManageEmployee implements Initializable {
                 + tfPassword.getText() + "', tenNV = N'" + tfTenNV.getText() + "', ngaySinh = N'" + d2 + "', gioiTinh = N'" + gioitinh  +
                 "', soDT = N'" + tfPNumber.getText() + "', email = N'" + tfEmail.getText() + "', soCMND = N'" + tfIdCard.getText() + "', queQuan = N'" + tfAddress.getText() + "', luong=" + tfLuong.getText()
                 + " where id =N'" + tfmaNV.getText() + "'";
-        executeQuery(query);
+        executeQuery(query,"");
         showUser();
     }
 
     private void deleteUser() {
 
         String query = "DELETE FROM [User] WHERE id ='" + tfmaNV.getText() + "'";
-        executeQuery(query);
+        executeQuery(query,"");
         showUser();
     }
 
-    private void executeQuery(String query) {
+    private void executeQuery(String query,String k) {
         DBConnection dbc = new DBConnection();
         Connection conn = dbc.getConnection();
         Statement st;
         try {
             st = conn.createStatement();
             st.executeUpdate(query);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Thành công");
+            alert.show();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Vui lòng nhập lại thông tin.\n"+k+"Username, email, số CMND hoặc sđt đã tồn tại.");
+            alert.show();
         }
     }
 
@@ -394,6 +375,7 @@ public class ManageEmployee implements Initializable {
         userList.clear();
         if (tfSearch.getText().compareTo("") == 0) {
             addAll();
+            showUser();
         } else {
             userList.clear();
             try {
@@ -414,7 +396,7 @@ public class ManageEmployee implements Initializable {
     }
 
     public ArrayList<User> fillCustomer(String s) throws Exception {
-        String sql = "select * from dbo.[User] as nv where nv.name like '" + s + "%'" +
+        String sql = "select * from dbo.[User] as nv where nv.tenNV like '" + s + "%'" +
                 "union select * from dbo.[User] as nv where nv.soCMND like '" + s + "%'" +
                 "union select * from dbo.[User] as nv where nv.username like '" + s + "%'";
         DBConnection dbc = new DBConnection();

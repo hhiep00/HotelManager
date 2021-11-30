@@ -9,8 +9,8 @@ public class Phong {
     public Phong() {
     }
 
-    public Phong(int maPhong, String loaiPhong, String trangThai, int gia) {
-        this.maPhong = "P" + String.format("%02d", maPhong);
+    public Phong(String maPhong, String loaiPhong, String trangThai, int gia) {
+        this.maPhong = maPhong;
         this.loaiPhong = loaiPhong;
         this.trangThai = trangThai;
         this.gia = gia;
@@ -25,19 +25,15 @@ public class Phong {
     }
 
     public String getTrangThai() {
-        if(trangThai.contains("0")){
-            return "Đã Thuê";
-        } else {
-            return "Trống";
-        }
+        return trangThai;
     }
 
     public int getGia() {
         return gia;
     }
 
-    public void setMaPhong(int maPhong) {
-        this.maPhong = "P" + String.format("%02d", maPhong);
+    public void setMaPhong(String maPhong) {
+        this.maPhong = maPhong;
     }
 
     public void setLoaiPhong(String loaiPhong) {

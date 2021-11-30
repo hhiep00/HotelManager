@@ -113,23 +113,24 @@ public class CustomerInfo implements Initializable {
         if(checkErrorText()){
             String query = "INSERT INTO dbo.KhachHang VALUES ( N'" + textFieldName.getText() + "', N'"
                     + datePickerDob.getValue().toString() + "', N'" + gender + "', N'" + textFieldIdCard.getText() + "', N'" + textFilePhoneNumber.getText() + "', N'" + textFieldHometown.getText() + "', N'" + textFieldNationality.getText() + "')";
-            System.out.println(query);
-            DBConnection databaseConnection = new DBConnection();
-            Connection cn = databaseConnection.getConnection();
-            Statement st;
-            try {
-                st = cn.createStatement();
-                st.executeUpdate(query);
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Đã thêm");
-                alert.show();
-                resetText();
-            } catch (Exception e){
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Mã khách hàng đã tồn tại");
-                alert.show();
-            }
+            executeQuery(query);
+        }
+    }
+    private void executeQuery(String query) {
+        DBConnection dbc = new DBConnection();
+        Connection conn = dbc.getConnection();
+        Statement st;
+        try {
+            st = conn.createStatement();
+            st.executeUpdate(query);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Thành công");
+            alert.show();
+            resetText();
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Số CMND hoặc sđt đã tồn tại.");
+            alert.show();
         }
     }
     private void resetText(){

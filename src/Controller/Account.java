@@ -50,7 +50,7 @@ public class Account implements Initializable {
                 labelGender.setText(rs.getString("gioiTinh"));
                 labelPhone.setText(rs.getString("soDT"));
                 labelEmail.setText(rs.getString("email"));
-                labelAddress.setText(rs.getString("diaChi"));
+                labelAddress.setText(rs.getString("queQuan"));
             }
         } catch (Exception e){
             e.printStackTrace();

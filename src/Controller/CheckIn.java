@@ -260,8 +260,11 @@ public class CheckIn implements Initializable {
             rs = st.executeQuery(query);
             Phong rooms;
             while (rs.next()) {
-                rooms = new Phong(rs.getInt("maPhong"), rs.getString("loaiPhong"),
-                        rs.getString("trangThai"), rs.getInt("gia"));
+                String trangThai="";
+                if(rs.getString("trangThai").equals("1")) trangThai="Trống";
+                else trangThai="Đã thuê";
+                rooms = new Phong(rs.getString("maPhong"), rs.getString("loaiPhong"),
+                        trangThai, rs.getInt("gia"));
                 phongList.add(rooms);
             }
         } catch (Exception e) {
@@ -319,7 +322,7 @@ public class CheckIn implements Initializable {
             st = cn.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
-                listMKH.add("P" + String.format("%02d", rs.getInt("maPhong")));
+                listMKH.add(rs.getString("maPhong"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -338,7 +341,7 @@ public class CheckIn implements Initializable {
 
 
     private void updateTrangThaiPhong() {
-        String query = "UPDATE Phong SET trangThai = '" + false + "' WHERE maPhong = " + Integer.parseInt(comBoxMP.getSelectionModel().getSelectedItem().substring(1));
+        String query = "UPDATE Phong SET trangThai = '" + false + "' WHERE maPhong = '" + comBoxMP.getSelectionModel().getSelectedItem()+"'";
         DBConnection dbc = new DBConnection();
         Connection cn = dbc.getConnection();
         Statement st;

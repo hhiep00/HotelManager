@@ -37,7 +37,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="30.0" layoutY="203.0" text="Địa chỉ :">
+      <Label layoutX="30.0" layoutY="203.0" text="Quê quán :">
          <font>
             <Font size="16.0" />
          </font>
@@ -47,37 +47,37 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Label fx:id="labelUsername" layoutX="150.0" layoutY="23.0" text="admin">
+      <Label fx:id="labelUsername" layoutX="150.0" layoutY="23.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="labelName" layoutX="150.0" layoutY="53.0" text="Nguyễn Văn Hoàng">
+      <Label fx:id="labelName" layoutX="150.0" layoutY="53.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="labelDob" layoutX="150.0" layoutY="83.0" text="2001-11-28">
+      <Label fx:id="labelDob" layoutX="150.0" layoutY="83.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="labelGender" layoutX="150.0" layoutY="113.0" text="Nam">
+      <Label fx:id="labelGender" layoutX="150.0" layoutY="113.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="labelPhone" layoutX="150.0" layoutY="143.0" text="0868392001">
+      <Label fx:id="labelPhone" layoutX="150.0" layoutY="143.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="labelEmail" layoutX="150.0" layoutY="173.0" text="hoang@gmail.com">
+      <Label fx:id="labelEmail" layoutX="150.0" layoutY="173.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="labelAddress" layoutX="150.0" layoutY="203.0" text="Hà Nam">
+      <Label fx:id="labelAddress" layoutX="150.0" layoutY="203.0">
          <font>
             <Font size="16.0" />
          </font>
